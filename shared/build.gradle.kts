@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
+    id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-18"
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -41,6 +43,17 @@ kotlin {
                 implementation(libs.kotlin.test)
             }
         }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.play.services)
+                implementation(libs.play.services.location)
+                implementation(libs.androidx.startup.runtime)
+            }
+        }
+    }
+
+    kotlin.sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
     }
 }
 

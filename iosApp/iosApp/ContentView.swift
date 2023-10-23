@@ -1,16 +1,18 @@
 import SwiftUI
 import shared
+import KMPNativeCoroutinesAsync
 
 struct ContentView: View {
-	let greet = Greeting().greet()
+    @ObservedObject var contentViewModel:ContentViewModel = ContentViewModel()
 
 	var body: some View {
-		Text(greet)
-	}
+        UberMapViewRepresentable()
+            .ignoresSafeArea()
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView()
+        ContentView(contentViewModel: ContentViewModel())
 	}
 }

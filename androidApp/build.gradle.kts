@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -12,7 +14,13 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        val keyProps = Properties().apply {
+            file("../local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+        }
+        manifestPlaceholders["GOOGLE_MAP_API"] = keyProps.getProperty("GOOGLE_MAP_API")
     }
+
     buildFeatures {
         compose = true
     }
@@ -45,4 +53,9 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
+    // Handling Permission scenario
+    implementation(libs.permission.flow.compose)
+    // Getting Google Maps
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
 }
